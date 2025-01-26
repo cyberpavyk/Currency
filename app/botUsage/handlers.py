@@ -32,6 +32,7 @@ async def main_menu(callback: CallbackQuery):
 @router.callback_query(F.data == 'get_cot')
 async def reply_sec(callback: CallbackQuery):
     chat_id = callback.from_user.id
+    await callback.answer()
 
     initial_mess = await callback.bot.send_message(chat_id, text = 'Действие выполняется....')
     await callback.bot.send_chat_action(chat_id, action='typing')
@@ -45,7 +46,6 @@ async def reply_sec(callback: CallbackQuery):
                                         reply_markup=kb.values_end
                                         )
 
-    await callback.answer()
 
 
 

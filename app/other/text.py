@@ -1,7 +1,7 @@
 from app.other.classes import GetData
 from decimal import Decimal
 async def set_text():
-    """
+    r"""
 
     Формирует текстовое сообщение с котировками валют.
 
@@ -30,7 +30,7 @@ async def set_text():
 
 
 async def price_correction(imp: dict) -> str:
-    """
+    r"""
     Формирует и расчитывает соотношение валютной пары USD\RUB
     к Investing.com
     :imp: Словарь с данными котировок
