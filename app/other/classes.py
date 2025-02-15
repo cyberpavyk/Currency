@@ -46,7 +46,7 @@ class GetData():
                 headless=True
             ) as br:
                 
-                context = await br.new_context(user_agent=USER_AGENT, proxy=PROXY)
+                context = await br.new_context(user_agent=USER_AGENT)
                 page = await context.new_page()
                 await page.goto(URL, wait_until='domcontentloaded')
             
@@ -163,7 +163,7 @@ class GetData():
 
         USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
         URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=RUB"
-        XE_USD_RUB_LOC = "//p[contains(@class, 'sc-a3e7ffd7-1') and contains(@class, 'bnLtQr')]"
+        XE_USD_RUB_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
 
         async with async_playwright() as p:
             async with await p.chromium.launch(
@@ -176,11 +176,13 @@ class GetData():
                 await page.goto(URL, wait_until='domcontentloaded')
 
                 try:
+                    await page.wait_for_selector(XE_USD_RUB_LOC)
                     act_price = await page.locator(XE_USD_RUB_LOC).inner_text()
                 except Exception as e:
-                    print(e)
+
                     act_price = None
-                    raise e
+                    print(f'error found {e}')
+
                 finally:
                     
                     return act_price.split()[0]
@@ -191,7 +193,7 @@ class GetData():
 
         USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
         URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CNY"
-        XE_USD_CNY_LOC = "//p[contains(@class, 'sc-a3e7ffd7-1') and contains(@class, 'bnLtQr')]"
+        XE_USD_CNY_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
 
         
         async with async_playwright() as p:
@@ -207,11 +209,14 @@ class GetData():
                 await page.goto(URL, wait_until='domcontentloaded')
 
                 try:
+
+                    await page.wait_for_selector(XE_USD_CNY_LOC)
                     act_price = await page.locator(XE_USD_CNY_LOC).inner_text()
                 except Exception as e:
                     print(e)
                     act_price = None
-                    raise e
+                    print(f'error found {e}')
+
                 finally:
                    
                     return act_price.split()[0]
@@ -224,8 +229,7 @@ class GetData():
 
         USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
         URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=USD"
-        XE_USD_EUR_LOC = "//p[contains(@class, 'sc-a3e7ffd7-1') and contains(@class, 'bnLtQr')]"
-
+        XE_USD_EUR_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
         async with async_playwright() as p:
             async with await p.chromium.launch(
                 channel='chrome',
@@ -239,10 +243,11 @@ class GetData():
                 await page.goto(URL, wait_until='domcontentloaded')
 
                 try:
+                    await page.wait_for_selector(XE_USD_EUR_LOC)
                     act_price = await page.locator(XE_USD_EUR_LOC).inner_text()
                 except Exception as e:
                     act_price = None
-                    raise e
+                    print(f'error found {e}')
 
                 finally:
                     
@@ -254,7 +259,7 @@ class GetData():
 
         USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
         URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=RUB"
-        XE_RUB_EUR_LOC = "//p[contains(@class, 'sc-a3e7ffd7-1') and contains(@class, 'bnLtQr')]"
+        XE_RUB_EUR_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
 
         async with async_playwright() as p:
             async with await p.chromium.launch(
@@ -269,14 +274,14 @@ class GetData():
                 await page.goto(URL, wait_until='domcontentloaded')
 
                 try:
+                   
                     act_price = await page.locator(XE_RUB_EUR_LOC).inner_text()
                 except Exception as e:
                     act_price = None
-                    raise e
+                    print(f'error found {e}')
 
                 finally:
-                    
-                    return act_price.split()[0]
+                    return act_price.split()[0] if act_price != None else print('lost locator')
                 
         
         
