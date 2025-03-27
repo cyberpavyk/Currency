@@ -14,7 +14,7 @@ router = Router()
 
 @router.message(CommandStart())
 async def start_msg(message: Message):
-    await message.answer(text="Большое приветственное сообщение)",
+    await message.answer(text="Привет! Я помогу тебе узнать актуальные курсы разных валют.\nВыбери один из пунктов снизу! ",
                          reply_markup=kb.values
                          )
     
@@ -43,10 +43,9 @@ async def reply_sec(callback: CallbackQuery):
                                         chat_id=chat_id,
                                         message_id=initial_mess.message_id,
                                         text=txt, 
-                                        reply_markup=kb.values_end
+                                        reply_markup=kb.values_end,
+                                        parse_mode='MarkdownV2'
                                         )
-
-
 
 
 @router.callback_query(F.data=='calc')
@@ -254,10 +253,10 @@ async def xe_cny(callback: CallbackQuery, state: FSMContext):
     
 
 """
-garantex
+abcex
 """
-@router.callback_query(F.data=='back_to_gar')
-@router.callback_query(F.data=='garantex')
+@router.callback_query(F.data=='back_to_abcex')
+@router.callback_query(F.data=='abcex')
 async def calculator(callback: CallbackQuery,state: FSMContext):
 
     data = await state.get_value('message_id')
@@ -266,20 +265,20 @@ async def calculator(callback: CallbackQuery,state: FSMContext):
     
     await callback.bot.edit_message_text(chat_id=chat_id,
                                                    message_id=data,
-                                                   reply_markup=kb.garantex_couples,
+                                                   reply_markup=kb.abcex_couples,
                                                    text="Выберите доступную валютную пару")
     await callback.answer()
     
-@router.callback_query(F.data == 'gar_usdt_rub')
+@router.callback_query(F.data == 'abcex_usdt_rub')
 async def xe_cny(callback: CallbackQuery, state: FSMContext):
     data = await state.get_value("message_id") 
     chat_id = callback.from_user.id
     await state.set_state(Calc.input)
-    await state.update_data(platform='gar_usdt_rub')
+    await state.update_data(platform='abcex_usdt_rub')
     await callback.bot.edit_message_text(text='Введите количество USDT в формате "nnnn.nn":',
                                          message_id=data,
                                          chat_id=chat_id,
-                                         reply_markup=kb.exit_gar
+                                         reply_markup=kb.exit_abcex
                                          )
     await callback.answer()
     
@@ -299,7 +298,7 @@ async def calulations(message: Message, state: FSMContext):
     res = await calcuter(platform=plat, amount=amount)
 
 
-    await message.answer(text= str(res),
+    await message.answer(text=res,
                          reply_markup= kb.back_to_main)
 
     await state.clear()

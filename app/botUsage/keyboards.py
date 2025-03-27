@@ -29,7 +29,7 @@ platforms = InlineKeyboardMarkup(inline_keyboard=[
     ],
     [
         InlineKeyboardButton(text="ЦБ", callback_data='cb'),
-        InlineKeyboardButton(text="Garantex", callback_data='garantex')
+        InlineKeyboardButton(text="ABCEX", callback_data='abcex')
     ],
     [
         InlineKeyboardButton(text='На главное меню', callback_data='back_to_main')
@@ -83,9 +83,9 @@ investing_couples = InlineKeyboardMarkup(inline_keyboard=[
         ])
 
 
-garantex_couples = InlineKeyboardMarkup(inline_keyboard=[
+abcex_couples = InlineKeyboardMarkup(inline_keyboard=[
         [
-            InlineKeyboardButton(text="USDT/RUB", callback_data='gar_usdt_rub') 
+            InlineKeyboardButton(text="USDT/RUB", callback_data='abcex_usdt_rub') 
         ],
         [
             InlineKeyboardButton(text='Назад', callback_data='back_to_plat')
@@ -122,9 +122,9 @@ exit_xe =  InlineKeyboardMarkup(inline_keyboard=[
 ])
 
 
-exit_gar =  InlineKeyboardMarkup(inline_keyboard=[
+exit_abcex =  InlineKeyboardMarkup(inline_keyboard=[
     [
-        InlineKeyboardButton(text='Назад', callback_data='back_to_gar'),
+        InlineKeyboardButton(text='Назад', callback_data='back_to_abcex'),
     ]
 ])
 

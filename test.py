@@ -8,7 +8,7 @@ async def main():
     requests = [
         (pf.central_bank_usd_rub, 'результат запроса цб рф - {}'),
         (pf.investing_usd_rub, 'результат запроса investing - {}'),
-        (pf.grantex_usd_rub, 'результат запроса guruntux - {}'),
+        (pf.abcex_usdt_rub, 'результат запроса guruntux - {}'),
         (pf.xe_usd_cny, 'результат запроса xe_usd_cny - {}'),
         (pf.xe_eur_usd, 'результат запроса xe_eur_usd - {}'),
         (pf.xe_usd_rub, 'результат запроса xe_rub_usd - {}'),

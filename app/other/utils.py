@@ -50,8 +50,8 @@ async def calcuter(platform: str, amount: str ) -> str:
             res = await stf.investing_usd_rub()
             return f'{Decimal(res['price'].replace(",", ".")) * Decimal(amount):.2f} RUB'
 
-        #garantex
-        case 'gar_usdt_rub':
-            res = await stf.grantex_usd_rub()
+        #abcex
+        case 'abcex_usdt_rub':
+            res = await stf.abcex_usdt_rub()
             return f'{Decimal(res) * Decimal(amount):.2f} RUB'
         

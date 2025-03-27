@@ -9,26 +9,30 @@ import asyncio
 class GetData(): 
    
 
-    #Usd-rub garantex
+    #Usd-rub abcex
     @staticmethod
-    async def grantex_usd_rub():
+    async def abcex_usdt_rub():
+        try:    
+            URL = "https://abcex.io/"
+            ABCEX_LOC_USD_RUB = 'div.text-red-1'
 
-        URL = "https://garantex.org/"
-        GAR_LOC_USD_RUB = 'span.form_price_usdt_ask'
+            async with async_playwright() as p:
 
-        async with async_playwright() as p:
+                browser = await p.chromium.launch(headless=True)
+                page = await browser.new_page()
+                await page.goto(URL, wait_until='domcontentloaded')
+                try:
+                    loc = page.locator(ABCEX_LOC_USD_RUB)
+                    act_price = await loc.first.inner_text()
+                except Exception as e:
+                    act_price = None
+                    raise e
 
-            browser = await p.chromium.launch(headless=True)
-            page = await browser.new_page()
-            await page.goto(URL)
-            try:
-                act_price = await page.locator(GAR_LOC_USD_RUB).inner_text()
-            except Exception as e:
-                act_price = None
-                raise e
-
-            
-            return act_price
+                
+                return act_price
+        except TimeoutError as e:
+            print(e, 'in abcex')
+            return 'abcex_error'
         
     #Usd-rub investing
     @staticmethod
@@ -74,81 +78,93 @@ class GetData():
     #Usd-rub central bank
     @staticmethod 
     async def central_bank_usd_rub():
+        try:
+            USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+            URL = "https://www.cbr.ru/currency_base/daily/"
+            CB_USD_RUB_LOC = 'table.data tbody tr:has(td:has-text("USD"))'
 
-        USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
-        URL = "https://www.cbr.ru/currency_base/daily/"
-        CB_USD_RUB_LOC = 'table.data tbody tr:has(td:has-text("USD"))'
+            async with async_playwright() as p:
+                async with await p.chromium.launch(
+                    channel='chrome',
+                    headless = True
+                ) as br:
+                    
+                    context = await br.new_context(user_agent=USER_AGENT)
+                    page = await context.new_page()
+                    await page.goto(URL)
 
-        async with async_playwright() as p:
-            async with await p.chromium.launch(
-                channel='chrome',
-                headless = True
-            ) as br:
+
+                    try:
+                        act_price = await page.locator(CB_USD_RUB_LOC).inner_text()
+                    except Exception as e:
+                        act_price = None
+                        raise e
+                    
+
                 
-                context = await br.new_context(user_agent=USER_AGENT)
-                page = await context.new_page()
-                await page.goto(URL)
-
-
-                try:
-                    act_price = await page.locator(CB_USD_RUB_LOC).inner_text()
-                except Exception as e:
-                    act_price = None
-                    raise e
-                
-
-               
-                return act_price.split()[-1]
-          
+                    return act_price.split()[-1]
+        except TimeoutError as e:
+            print(e, 'in abcex')
+            return 'abcex_error'
+        
 
         
 
     "CNY"
     @staticmethod
     async def central_bank_cny_rub():
-    
-    
-        URL = "https://www.cbr.ru/currency_base/daily/"
-        CB_CNY_RUB_LOC = 'table.data tbody tr:has(td:has-text("CNY"))'
-    
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=True)
-            page = await browser.new_page()
-            await page.goto(URL)
+        try:
+        
+            URL = "https://www.cbr.ru/currency_base/daily/"
+            CB_CNY_RUB_LOC = 'table.data tbody tr:has(td:has-text("CNY"))'
+        
+            async with async_playwright() as p:
+                browser = await p.chromium.launch(headless=True)
+                page = await browser.new_page()
+                await page.goto(URL)
 
 
-            try:
-                act_price = await page.locator(CB_CNY_RUB_LOC).inner_text()
-            except Exception as e:
-                act_price = None
-                raise e
+                try:
+                    act_price = await page.locator(CB_CNY_RUB_LOC).inner_text()
+                except Exception as e:
+                    act_price = None
+                    raise e
+                
+
             
-
-           
-            return act_price.split()[-1]
+                return act_price.split()[-1]
+            
+        except TimeoutError as e:
+            print(e, 'in abcex')
+            return 'abcex_error'
+    
 
     "eur"
     @staticmethod
     async def central_bank_eur_rub():
+        try:
+            URL = "https://www.cbr.ru/currency_base/daily/"
+            CB_EUR_RUB_LOC = 'table.data tbody tr:has(td:has-text("EUR"))'
 
-        URL = "https://www.cbr.ru/currency_base/daily/"
-        CB_EUR_RUB_LOC = 'table.data tbody tr:has(td:has-text("EUR"))'
-
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=True)
-            page = await browser.new_page()
-            await page.goto(URL)
+            async with async_playwright() as p:
+                browser = await p.chromium.launch(headless=True)
+                page = await browser.new_page()
+                await page.goto(URL)
 
 
-            try:
-                act_price = await page.locator(CB_EUR_RUB_LOC).inner_text()
-            except Exception as e:
-                act_price = None
-                raise e
-            
+                try:
+                    act_price = await page.locator(CB_EUR_RUB_LOC).inner_text()
+                except Exception as e:
+                    act_price = None
+                    raise e
+                
 
-            
-            return act_price.split()[-1]
+                
+                return act_price.split()[-1]
+        except TimeoutError as e:
+            print(e, 'in abcex')
+            return 'abcex_error'
+        
 
 
     """
@@ -160,66 +176,74 @@ class GetData():
     """
     @staticmethod
     async def xe_usd_rub():
+        try:
+            USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+            URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=RUB"
+            XE_USD_RUB_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
 
-        USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
-        URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=RUB"
-        XE_USD_RUB_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
-
-        async with async_playwright() as p:
-            async with await p.chromium.launch(
-                channel='chrome',
-                headless = True
-            ) as br:
-                
-                context = await br.new_context(user_agent=USER_AGENT, proxy=PROXY)
-                page = await context.new_page()
-                await page.goto(URL, wait_until='domcontentloaded')
-
-                try:
-                    await page.wait_for_selector(XE_USD_RUB_LOC)
-                    act_price = await page.locator(XE_USD_RUB_LOC).inner_text()
-                except Exception as e:
-
-                    act_price = None
-                    print(f'error found {e}')
-
-                finally:
+            async with async_playwright() as p:
+                async with await p.chromium.launch(
+                    channel='chrome',
+                    headless = True
+                ) as br:
                     
-                    return act_price.split()[0]
+                    context = await br.new_context(user_agent=USER_AGENT, proxy=PROXY)
+                    page = await context.new_page()
+                    await page.goto(URL, wait_until='domcontentloaded')
+
+                    try:
+                        await page.wait_for_selector(XE_USD_RUB_LOC)
+                        act_price = await page.locator(XE_USD_RUB_LOC).inner_text()
+                    except Exception as e:
+
+                        act_price = None
+                        print(f'error found {e}')
+
+                    finally:
+                        
+                        return act_price.split()[0]
+        except TimeoutError as e:
+            print(e, 'in abcex')
+            return 'abcex_error'
+        
 
 
     @staticmethod
     async def xe_usd_cny():
+        try:
+            USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
+            URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CNY"
+            XE_USD_CNY_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
 
-        USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
-        URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CNY"
-        XE_USD_CNY_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
+            
+            async with async_playwright() as p:
+                async with await p.chromium.launch(
+                    channel='chrome',
+                    headless = True
+                ) as br:
+                
+                
+                    context = await br.new_context(user_agent=USER_AGENT, proxy=PROXY)
+                                                
+                    page = await context.new_page()
+                    await page.goto(URL, wait_until='domcontentloaded')
 
+                    try:
+
+                        await page.wait_for_selector(XE_USD_CNY_LOC)
+                        act_price = await page.locator(XE_USD_CNY_LOC).inner_text()
+                    except Exception as e:
+                        print(e)
+                        act_price = None
+                        print(f'error found {e}')
+
+                    finally:
+                    
+                        return act_price.split()[0]
+        except TimeoutError as e:
+            print(e, 'in abcex')
+            return 'abcex_error'
         
-        async with async_playwright() as p:
-            async with await p.chromium.launch(
-                channel='chrome',
-                headless = True
-            ) as br:
-            
-            
-                context = await br.new_context(user_agent=USER_AGENT, proxy=PROXY)
-                                              
-                page = await context.new_page()
-                await page.goto(URL, wait_until='domcontentloaded')
-
-                try:
-
-                    await page.wait_for_selector(XE_USD_CNY_LOC)
-                    act_price = await page.locator(XE_USD_CNY_LOC).inner_text()
-                except Exception as e:
-                    print(e)
-                    act_price = None
-                    print(f'error found {e}')
-
-                finally:
-                   
-                    return act_price.split()[0]
 
                 
             
@@ -290,7 +314,7 @@ class GetData():
     async def __call__(self):
         
         tasks = [
-            self.grantex_usd_rub(),
+            self.abcex_usdt_rub(),
             self.investing_usd_rub(),
             self.central_bank_usd_rub(),
             self.xe_usd_cny(),
@@ -303,7 +327,7 @@ class GetData():
         results = await asyncio.gather(*tasks)
 
         answ = {
-            "garantex": results[0],
+            "abcex": results[0],
             "investing": results[1],
             "centralb": results[2],
             "xe_cny": results[3],
