@@ -179,7 +179,7 @@ class GetData():
         try:
             USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
             URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=RUB"
-            XE_USD_RUB_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
+            XE_USD_RUB_LOC = '//p[contains(@class, "sc-708e65be-1 chuBHG")]'
 
             async with async_playwright() as p:
                 async with await p.chromium.launch(
@@ -213,7 +213,7 @@ class GetData():
         try:
             USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
             URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=CNY"
-            XE_USD_CNY_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
+            XE_USD_CNY_LOC = '//p[contains(@class, "sc-708e65be-1 chuBHG")]'
 
             
             async with async_playwright() as p:
@@ -253,7 +253,7 @@ class GetData():
 
         USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
         URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=USD"
-        XE_USD_EUR_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
+        XE_USD_EUR_LOC = '//p[contains(@class, "sc-708e65be-1 chuBHG")]'
         async with async_playwright() as p:
             async with await p.chromium.launch(
                 channel='chrome',
@@ -283,7 +283,7 @@ class GetData():
 
         USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36'
         URL = "https://www.xe.com/currencyconverter/convert/?Amount=1&From=EUR&To=RUB"
-        XE_RUB_EUR_LOC = '//p[contains(@class, "sc-294d8168-1 hVDvqw")]'
+        XE_RUB_EUR_LOC = '//p[contains(@class, "sc-708e65be-1 chuBHG")]'
 
         async with async_playwright() as p:
             async with await p.chromium.launch(
